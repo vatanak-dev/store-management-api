@@ -24,9 +24,10 @@ public class ProductService {
     public String getMessage(){
         return "Hello from ProductService!";
     }
+
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found."));
+                .orElse(null);
     }
 
 

@@ -2,9 +2,7 @@ package com.vdev.controller;
 
 import com.vdev.entity.Product;
 import com.vdev.service.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,6 +23,16 @@ public class ProductController {
     @GetMapping
     public List<Product> getAllProduct(){
         return productService.getAllProducts();
+    }
+
+    @GetMapping("{id}")
+    public Product product (@PathVariable Long id){
+        return productService.getProductById(id);
+    }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product){
+        return productService.createProduct(product);
     }
 }
 

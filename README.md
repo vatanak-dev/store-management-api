@@ -8,8 +8,8 @@ A RESTful API built with Java and Spring Boot for managing store products.
 - Get All Products
 - Get Product by ID
 - Update Product
-- Handle Product Not Found (HTTP 404)
-- Delete Product (Coming Soon)
+- Delete a product
+- Handle missing products with a custom exception
 
 ## Tech Stack
 
@@ -42,10 +42,10 @@ Database
 | GET | `/products/{id}` | Get one product by ID |
 | POST | `/products` | Create a product |
 | PUT | `/products/{id}` | Update a product |
+| DELETE | `/products/{id}` | Delete a product | `204 No Content` |
 
-## Learning Documentation
-
-Detailed lesson notes are available in the `docs/` folder.
+## Error Handling 
+When a requested product does not exist, the API throws `ProductNotFoundException` and returns: ` 404 Not Found`
 
 ## Completed Concepts
 
@@ -61,7 +61,6 @@ Detailed lesson notes are available in the `docs/` folder.
 
 ## Future Features
 
-- Delete Product
 - Global Exception Handling (`@ControllerAdvice`)
 - Validation (`@Valid`)
 - DTO Pattern

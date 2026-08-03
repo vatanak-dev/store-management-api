@@ -4,12 +4,12 @@ A RESTful API built with Java and Spring Boot for managing store products.
 
 ## Features
 
-- Create Product
-- Get All Products
-- Get Product by ID
-- Update Product
-- Delete a product
-- Handle missing products with a custom exception
+- CRUD operations for Product
+- Layered Architecture (Controller → Service → Repository)
+- Spring Data JPA integration
+- Custom exception handling
+- Global exception handling using `@ControllerAdvice`
+- Consistent JSON error responses
 
 ## Tech Stack
 

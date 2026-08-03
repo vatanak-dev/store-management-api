@@ -1,6 +1,14 @@
 # Store Management API
 
-A backend REST API built with Java and Spring Boot as part of my backend development learning journey.
+A RESTful API built with Java and Spring Boot for managing store products.
+
+## Features
+
+- Create Product
+- Get All Products
+- Get Product by ID
+- Update Product
+- Delete Product (Coming Soon)
 
 ## Tech Stack
 
@@ -9,21 +17,46 @@ A backend REST API built with Java and Spring Boot as part of my backend develop
 - Spring Data JPA
 - MySQL
 - Maven
+- Postman
 
-## Features
+## Architecture
 
-- Product CRUD (In Progress)
+Client
+↓
+Controller
+↓
+Service
+↓
+Repository
+↓
+Database
 
-## Learning Progress
+## API Endpoints
 
-- ✅ Entity
-- ✅ Repository
-- ✅ Service
-- ⏳ Controller
-- ⏳ REST API
-- ⏳ Validation
-- ⏳ Exception Handling
+| Method | Endpoint | Description |
+|---------|----------|-------------|
+| GET | /products | Get all products |
+| GET | /products/{id} | Get one product |
+| POST | /products | Create product |
+| PUT | /products/{id} | Update product |
+
+## Learning Documentation
+
+Detailed learning notes are available in the `docs/` folder.
+
+## Future Features
+
+- Delete Product
+- Validation
+- Exception Handling
+- DTO
+- Pagination
+- Swagger/OpenAPI
+- Docker
+- Authentication (JWT)
 
 ## Author
 
-Vatanak Vut
+**Vatanak Vut**
+
+Computer Science Student | Backend Developer (Java & Spring Boot)

@@ -2,6 +2,7 @@ package com.vdev.controller;
 
 import com.vdev.entity.Product;
 import com.vdev.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +33,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product createProduct(@Valid @RequestBody Product product){
         return productService.createProduct(product);
     }
 

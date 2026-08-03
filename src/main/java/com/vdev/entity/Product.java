@@ -1,6 +1,10 @@
 package com.vdev.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
@@ -12,8 +16,16 @@ public class Product {
     @GeneratedValue ( strategy = GenerationType.IDENTITY )
     private Long id;
 
+    @NotBlank(message = "Product name is required")
+    @Size(min = 2, max = 100, message = "Product name must be between 2 and 100 characters")
     private String name;
+
+    @NotNull(message = "Product price is required")
+    @Positive(message = "Product price must be a positive value")
     private BigDecimal price;
+
+    @NotNull(message = "Product quantity is required")
+    @Positive(message = "Product quantity must be a positive value")
     private int quantity;
 
     // Constructors

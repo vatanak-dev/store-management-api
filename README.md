@@ -8,6 +8,7 @@ A RESTful API built with Java and Spring Boot for managing store products.
 - Get All Products
 - Get Product by ID
 - Update Product
+- Handle Product Not Found (HTTP 404)
 - Delete Product (Coming Soon)
 
 ## Tech Stack
@@ -21,37 +22,51 @@ A RESTful API built with Java and Spring Boot for managing store products.
 
 ## Architecture
 
+```text
 Client
-↓
+   ↓
 Controller
-↓
+   ↓
 Service
-↓
+   ↓
 Repository
-↓
+   ↓
 Database
+```
 
 ## API Endpoints
 
 | Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | /products | Get all products |
-| GET | /products/{id} | Get one product |
-| POST | /products | Create product |
-| PUT | /products/{id} | Update product |
+|--------|----------|-------------|
+| GET | `/products` | Get all products |
+| GET | `/products/{id}` | Get one product by ID |
+| POST | `/products` | Create a product |
+| PUT | `/products/{id}` | Update a product |
 
 ## Learning Documentation
 
-Detailed learning notes are available in the `docs/` folder.
+Detailed lesson notes are available in the `docs/` folder.
+
+## Completed Concepts
+
+- Layered Architecture
+- REST API Basics
+- CRUD (Create, Read, Update)
+- Spring Data JPA
+- Dependency Injection
+- Optional
+- Custom Exception
+- `@ResponseStatus`
+- HTTP Status Codes (200, 404)
 
 ## Future Features
 
 - Delete Product
-- Validation
-- Exception Handling
-- DTO
-- Pagination
-- Swagger/OpenAPI
+- Global Exception Handling (`@ControllerAdvice`)
+- Validation (`@Valid`)
+- DTO Pattern
+- Pagination & Sorting
+- Swagger / OpenAPI
 - Docker
 - Authentication (JWT)
 

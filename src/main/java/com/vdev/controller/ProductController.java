@@ -2,7 +2,9 @@ package com.vdev.controller;
 
 import com.vdev.entity.Product;
 import com.vdev.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 
@@ -13,7 +15,6 @@ public class ProductController {
     public ProductController (ProductService productService){
         this.productService = productService;
     }
-
 
     @GetMapping("/products")
     public String getProducts(){
@@ -38,6 +39,12 @@ public class ProductController {
     @PutMapping("/{id}")
     public Product updateProduct (@PathVariable Long id, @RequestBody Product product){
         return productService.updateProduct(id, product);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void  deleteProduct ( @PathVariable Long id){
+        productService.deleteProduct(id);
     }
 }
 

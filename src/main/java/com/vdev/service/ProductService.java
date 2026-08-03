@@ -1,6 +1,7 @@
 package com.vdev.service;
 
 import com.vdev.entity.Product;
+import com.vdev.exception.ProductNotFoundException;
 import com.vdev.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,8 @@ public class ProductService {
 
     public Product getProductById(Long id) {
         return productRepository.findById(id)
-                .orElse(null);
+                .orElseThrow
+                        (() -> new ProductNotFoundException("Product Not Found!"));
     }
     public Product updateProduct (Long id, Product product){
         Product existingProduct = productRepository.findById(id)
@@ -39,5 +41,11 @@ public class ProductService {
 
         return productRepository.save(existingProduct);
 
+    }
+
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " +id));
+        productRepository.delete(product);
     }
 }

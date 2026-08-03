@@ -10,6 +10,13 @@ A RESTful API built with Java and Spring Boot for managing store products.
 - Custom exception handling
 - Global exception handling using `@ControllerAdvice`
 - Consistent JSON error responses
+### Validation & Error Handling
+
+- Request validation using Jakarta Bean Validation (`@Valid`)
+- Field validation with `@NotBlank`, `@NotNull`, `@Positive`, and `@Size`
+- Centralized exception handling with `@RestControllerAdvice`
+- Consistent JSON error responses for `404 Not Found`
+- Consistent JSON validation responses for `400 Bad Request`
 
 ## Tech Stack
 
@@ -44,9 +51,6 @@ Database
 | PUT | `/products/{id}` | Update a product |
 | DELETE | `/products/{id}` | Delete a product | `204 No Content` |
 
-## Error Handling 
-When a requested product does not exist, the API throws `ProductNotFoundException` and returns: ` 404 Not Found`
-
 ## Completed Concepts
 
 - Layered Architecture
@@ -58,11 +62,10 @@ When a requested product does not exist, the API throws `ProductNotFoundExceptio
 - Custom Exception
 - `@ResponseStatus`
 - HTTP Status Codes (200, 404)
+- Global exception handling and @Valid
 
 ## Future Features
 
-- Global Exception Handling (`@ControllerAdvice`)
-- Validation (`@Valid`)
 - DTO Pattern
 - Pagination & Sorting
 - Swagger / OpenAPI

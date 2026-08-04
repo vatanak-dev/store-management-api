@@ -1,20 +1,27 @@
 package com.vdev.controller;
 
+import com.vdev.dto.ProductRequestDTO;
+import com.vdev.dto.ProductResponseDTO;
 import com.vdev.entity.Product;
+import com.vdev.repository.ProductRepository;
 import com.vdev.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-    public ProductController (ProductService productService){
+    private final ProductRepository productRepository;
+
+    public ProductController (ProductService productService, ProductRepository productRepository){
         this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/products")
@@ -23,24 +30,24 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getAllProduct(){
+    public List<ProductResponseDTO> getAllProducts() {
         return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
-    public Product product (@PathVariable Long id){
+    public ProductResponseDTO product (@PathVariable Long id){
         return productService.getProductById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(@Valid @RequestBody Product product){
-        return productService.createProduct(product);
+    public ProductResponseDTO createProduct(@Valid @RequestBody ProductRequestDTO requestDTO){
+        return productService.createProduct(requestDTO);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct (@PathVariable Long id, @RequestBody Product product){
-        return productService.updateProduct(id, product);
+    public ProductResponseDTO updateProduct (@PathVariable Long id, @Valid @RequestBody ProductRequestDTO requestDTO){
+        return productService.updateProduct(id, requestDTO);
     }
 
     @DeleteMapping("/{id}")

@@ -5,8 +5,10 @@ import com.vdev.exception.ProductNotFoundException;
 import com.vdev.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-
+import com.vdev.dto.ProductResponseDTO;
+import com.vdev.dto.ProductRequestDTO;
 import static org.apache.tomcat.util.net.openssl.OpenSSLStatus.setName;
 
 @Service
@@ -16,30 +18,70 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product createProduct (Product product) {
-        return productRepository.save(product);
+    public ProductResponseDTO createProduct (ProductRequestDTO requestDTO) {
+        Product product = new Product();
+        product.setName(requestDTO.getName());
+        product.setPrice(requestDTO.getPrice());
+        product.setQuantity(requestDTO.getQuantity());
+        Product savedProduct = productRepository.save(product);
+
+        ProductResponseDTO responseDTO = new ProductResponseDTO();
+        responseDTO.setId(savedProduct.getId());
+        responseDTO.setName(savedProduct.getName());
+        responseDTO.setPrice(savedProduct.getPrice());
+        responseDTO.setQuantity(savedProduct.getQuantity());
+        return responseDTO;
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductResponseDTO> getAllProducts() {
+
+        List<Product> products = productRepository.findAll();
+        List<ProductResponseDTO> responses = new ArrayList<>();
+
+        for (Product product : products){
+            ProductResponseDTO responseDTO = new ProductResponseDTO();
+            responseDTO.setId(product.getId());
+            responseDTO.setName(product.getName());
+            responseDTO.setPrice(product.getPrice());
+            responseDTO.setQuantity(product.getQuantity());
+
+            responses.add(responseDTO);
+        }
+
+        return responses;
     }
 
     public String getMessage(){
         return "Hello from ProductService!";
     }
 
-    public Product getProductById(Long id) {
-        return productRepository.findById(id)
+    public ProductResponseDTO getProductById(Long id) {
+        Product product = productRepository.findById(id)
                 .orElseThrow
                         (() -> new ProductNotFoundException("Product Not Found!"));
+        ProductResponseDTO responseDTO = new ProductResponseDTO();
+        responseDTO.setId(product.getId());
+        responseDTO.setName(product.getName());
+        responseDTO.setPrice(product.getPrice());
+        responseDTO.setQuantity(product.getQuantity());
+        return responseDTO;
     }
-    public Product updateProduct (Long id, Product product){
-        Product existingProduct = productRepository.findById(id)
+    public ProductResponseDTO updateProduct (Long id, ProductRequestDTO requestDTO){
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product Not Found"));
-        existingProduct.setName (product.getName());
-        existingProduct.setPrice (product.getPrice());
+        product.setName(requestDTO.getName());
+        product.setPrice(requestDTO.getPrice());
+        product.setQuantity(requestDTO.getQuantity());
 
-        return productRepository.save(existingProduct);
+        Product updatedProduct =  productRepository.save(product);
+
+        ProductResponseDTO responseDTO = new ProductResponseDTO();
+        responseDTO.setId(updatedProduct.getId());
+        responseDTO.setName(updatedProduct.getName());
+        responseDTO.setPrice(updatedProduct.getPrice());
+        responseDTO.setQuantity(updatedProduct.getQuantity());
+
+        return responseDTO;
 
     }
 

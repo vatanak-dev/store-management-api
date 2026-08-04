@@ -26,13 +26,13 @@ public class Product {
 
     @NotNull(message = "Product quantity is required")
     @Positive(message = "Product quantity must be a positive value")
-    private int quantity;
+    private Integer quantity;
 
     // Constructors
     public Product() {
     }
 
-    public Product(Long id ,String name, BigDecimal price, int quantity) {
+    public Product(Long id ,String name, BigDecimal price, Integer quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -65,11 +65,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 }

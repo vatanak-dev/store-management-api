@@ -39,15 +39,8 @@ public class ProductService {
         List<ProductResponseDTO> responses = new ArrayList<>();
 
         for (Product product : products){
-            ProductResponseDTO responseDTO = new ProductResponseDTO();
-            responseDTO.setId(product.getId());
-            responseDTO.setName(product.getName());
-            responseDTO.setPrice(product.getPrice());
-            responseDTO.setQuantity(product.getQuantity());
-
-            responses.add(responseDTO);
+            responses.add(mapToResponse(product));
         }
-
         return responses;
     }
 
@@ -82,12 +75,20 @@ public class ProductService {
         responseDTO.setQuantity(updatedProduct.getQuantity());
 
         return responseDTO;
-
     }
 
     public void deleteProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " +id));
         productRepository.delete(product);
+    }
+
+    private ProductResponseDTO mapToResponse (Product product) {
+        ProductResponseDTO responseDTO = new ProductResponseDTO();
+        responseDTO.setId(product.getId());
+        responseDTO.setName(product.getName());
+        responseDTO.setPrice(product.getPrice());
+        responseDTO.setQuantity(product.getQuantity());
+        return responseDTO;
     }
 }

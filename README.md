@@ -14,6 +14,8 @@ A RESTful API built with **Java**, **Spring Boot**, **Spring Data JPA**, and **M
 - ✅ Request Validation using Jakarta Bean Validation
 - ✅ Global Exception Handling
 - ✅ DTO-based API Architecture
+- ✅ DTO-based API responses to separate internal entities from client-facing data.
+- ✅ Reusable DTO mapping method to reduce duplicate code and improve maintainability.
 
 ---
 

@@ -35,13 +35,9 @@ public class ProductService {
 
     public List<ProductResponseDTO> getAllProducts() {
 
-        List<Product> products = productRepository.findAll();
-        List<ProductResponseDTO> responses = new ArrayList<>();
-
-        for (Product product : products){
-            responses.add(mapToResponse(product));
-        }
-        return responses;
+        return productRepository.findAll().stream()
+                .map(this::mapToResponse)
+                .toList();
     }
 
     public String getMessage(){

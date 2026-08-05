@@ -16,6 +16,8 @@ A RESTful API built with **Java**, **Spring Boot**, **Spring Data JPA**, and **M
 - ✅ DTO-based API Architecture
 - ✅ DTO-based API responses to separate internal entities from client-facing data.
 - ✅ Reusable DTO mapping method to reduce duplicate code and improve maintainability.
+- ✅ Refactored DTO mapping using Java Stream API for cleaner and more maintainable code.
+
 
 ---
 

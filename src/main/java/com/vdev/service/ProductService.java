@@ -35,10 +35,8 @@ public class ProductService {
     }
 
     public List<ProductResponseDTO> getAllProducts() {
-
-        return productRepository.findAll().stream()
-                .map(productMapper::toResponse)
-                .toList();
+        List<Product> products = productRepository.findAll();
+        return productMapper.toResponseList(products);
     }
 
     public String getMessage(){
@@ -53,9 +51,7 @@ public class ProductService {
     public ProductResponseDTO updateProduct (Long id, ProductRequestDTO requestDTO){
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " + id));
-        product.setName(requestDTO.getName());
-        product.setPrice(requestDTO.getPrice());
-        product.setQuantity(requestDTO.getQuantity());
+        productMapper.updateEntity(requestDTO, product);
 
         Product updatedProduct = productRepository.save(product);
         return productMapper.toResponse(updatedProduct);

@@ -7,9 +7,11 @@ import com.vdev.repository.ProductRepository;
 import com.vdev.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,5 +58,18 @@ public class ProductController {
         productService.deleteProduct(id);
     }
 
-}
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductResponseDTO>> searchByName (@RequestParam String name){
+        return ResponseEntity.ok(productService.searchByName(name));
+    }
 
+    @GetMapping("/search/min-price")
+    public ResponseEntity<List<ProductResponseDTO>> findByMinPrice (@RequestParam BigDecimal minPrice){
+        return ResponseEntity.ok(productService.findByMinPrice(minPrice));
+    }
+
+    @GetMapping("/search/max-price")
+    public ResponseEntity<List<ProductResponseDTO>> findByMaxPrice (@RequestParam BigDecimal maxPrice) {
+        return ResponseEntity.ok(productService.findByMaxPrice(maxPrice));
+    }
+}

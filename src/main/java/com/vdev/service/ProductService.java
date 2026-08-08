@@ -7,7 +7,9 @@ import com.vdev.exception.ProductNotFoundException;
 import com.vdev.mapper.ProductMapper;
 import com.vdev.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -61,5 +63,28 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " +id));
         productRepository.delete(product);
+    }
+
+    public List<ProductResponseDTO> searchByName(
+            @RequestParam String name){
+        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
+        return products.stream()
+                .map(productMapper::toResponse)
+                .toList();
+    }
+
+    public List<ProductResponseDTO> findByMinPrice (@RequestParam BigDecimal minPrice){
+        List<Product> products = productRepository.findByPriceLessThanEqual(minPrice);
+
+        return products.stream()
+                .map(productMapper::toResponse)
+                .toList();
+    }
+    public List<ProductResponseDTO> findByMaxPrice (@RequestParam BigDecimal maxPrice){
+        List<Product> products = productRepository.findByPriceGreaterThanEqual(maxPrice);
+
+        return products.stream()
+                .map(productMapper::toResponse)
+                .toList();
     }
 }

@@ -6,8 +6,9 @@ import com.vdev.entity.Product;
 import com.vdev.exception.ProductNotFoundException;
 import com.vdev.mapper.ProductMapper;
 import com.vdev.repository.ProductRepository;
+import com.vdev.specification.ProductSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,15 +37,6 @@ public class ProductService {
         return productMapper.toResponse(savedProduct);
     }
 
-    public List<ProductResponseDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return productMapper.toResponseList(products);
-    }
-
-    public String getMessage(){
-        return "Hello from ProductService!";
-    }
-
     public ProductResponseDTO getProductById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found!"));
@@ -64,27 +56,46 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " +id));
         productRepository.delete(product);
     }
+    public List<ProductResponseDTO> searchProducts (
+            String name, BigDecimal minPrice, BigDecimal maxPrice){
+        Specification<Product> specification = Specification.unrestricted();
 
-    public List<ProductResponseDTO> searchByName(
-            @RequestParam String name){
-        List<Product> products = productRepository.findByNameContainingIgnoreCase(name);
-        return products.stream()
-                .map(productMapper::toResponse)
-                .toList();
+        if (minPrice != null && minPrice.compareTo(BigDecimal.ZERO) < 0){
+            throw new IllegalArgumentException(
+                    "minPrice cannot be negative"
+            );
+        }
+
+        if (maxPrice != null && maxPrice.compareTo(BigDecimal.ZERO) < 0){
+            throw new IllegalArgumentException(
+                    "maxPrice cannot be negative"
+            );
+        }
+
+        if (minPrice != null && maxPrice != null && minPrice.compareTo(maxPrice) > 0) {
+            throw new IllegalArgumentException(
+                    "minPrice cannot be greater than maxPrice"
+            );
+        }
+
+        if (name != null && !name.isBlank()) {
+            specification = specification.and(
+                    ProductSpecification.nameContains(name)
+            );
+        }
+        if (minPrice != null) {
+            specification = specification.and(
+                    ProductSpecification.priceGreaterThanOrEqualTo(minPrice)
+            );
+        }
+        if (maxPrice != null) {
+            specification = specification.and(
+                    ProductSpecification.priceLessThanOrEqualTo(maxPrice)
+            );
+        }
+        List<Product> products = productRepository.findAll(specification);
+
+        return productMapper.toResponseList(products);
     }
 
-    public List<ProductResponseDTO> findByMinPrice (@RequestParam BigDecimal minPrice){
-        List<Product> products = productRepository.findByPriceLessThanEqual(minPrice);
-
-        return products.stream()
-                .map(productMapper::toResponse)
-                .toList();
-    }
-    public List<ProductResponseDTO> findByMaxPrice (@RequestParam BigDecimal maxPrice){
-        List<Product> products = productRepository.findByPriceGreaterThanEqual(maxPrice);
-
-        return products.stream()
-                .map(productMapper::toResponse)
-                .toList();
-    }
 }

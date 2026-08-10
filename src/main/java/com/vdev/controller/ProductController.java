@@ -2,38 +2,33 @@ package com.vdev.controller;
 
 import com.vdev.dto.ProductRequestDTO;
 import com.vdev.dto.ProductResponseDTO;
-import com.vdev.entity.Product;
-import com.vdev.repository.ProductRepository;
+
 import com.vdev.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
-    private final ProductRepository productRepository;
 
-    public ProductController (ProductService productService, ProductRepository productRepository){
+    public ProductController (ProductService productService){
         this.productService = productService;
-        this.productRepository = productRepository;
-    }
-
-    @GetMapping("/products")
-    public String getProducts(){
-        return productService.getMessage();
     }
 
     @GetMapping
-    public List<ProductResponseDTO> getAllProducts() {
-        return productService.getAllProducts();
+    public List<ProductResponseDTO> getAllProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice
+    ) {
+        return productService.searchProducts(name, minPrice, maxPrice);
     }
 
     @GetMapping("/{id}")
@@ -56,20 +51,6 @@ public class ProductController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void  deleteProduct ( @PathVariable Long id){
         productService.deleteProduct(id);
-    }
 
-    @GetMapping("/search")
-    public ResponseEntity<List<ProductResponseDTO>> searchByName (@RequestParam String name){
-        return ResponseEntity.ok(productService.searchByName(name));
-    }
-
-    @GetMapping("/search/min-price")
-    public ResponseEntity<List<ProductResponseDTO>> findByMinPrice (@RequestParam BigDecimal minPrice){
-        return ResponseEntity.ok(productService.findByMinPrice(minPrice));
-    }
-
-    @GetMapping("/search/max-price")
-    public ResponseEntity<List<ProductResponseDTO>> findByMaxPrice (@RequestParam BigDecimal maxPrice) {
-        return ResponseEntity.ok(productService.findByMaxPrice(maxPrice));
     }
 }

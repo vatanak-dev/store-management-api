@@ -5,6 +5,9 @@ import com.vdev.dto.ProductResponseDTO;
 
 import com.vdev.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +26,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponseDTO> getAllProducts(
+    public Page<ProductResponseDTO> getAllProducts(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) BigDecimal minPrice,
-            @RequestParam(required = false) BigDecimal maxPrice
-    ) {
-        return productService.searchProducts(name, minPrice, maxPrice);
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @PageableDefault(size = 10)
+            Pageable pageable) {
+        return productService.searchProducts(
+                name,
+                minPrice,
+                maxPrice,
+                pageable);
     }
 
     @GetMapping("/{id}")

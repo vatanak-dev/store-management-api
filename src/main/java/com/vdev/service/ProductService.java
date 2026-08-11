@@ -7,6 +7,8 @@ import com.vdev.exception.ProductNotFoundException;
 import com.vdev.mapper.ProductMapper;
 import com.vdev.repository.ProductRepository;
 import com.vdev.specification.ProductSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -56,8 +58,11 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " +id));
         productRepository.delete(product);
     }
-    public List<ProductResponseDTO> searchProducts (
-            String name, BigDecimal minPrice, BigDecimal maxPrice){
+    public Page<ProductResponseDTO> searchProducts (
+            String name,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            Pageable pageable){
         Specification<Product> specification = Specification.unrestricted();
 
         if (minPrice != null && minPrice.compareTo(BigDecimal.ZERO) < 0){
@@ -93,9 +98,9 @@ public class ProductService {
                     ProductSpecification.priceLessThanOrEqualTo(maxPrice)
             );
         }
-        List<Product> products = productRepository.findAll(specification);
+        Page<Product> products = productRepository.findAll(specification, pageable);
 
-        return productMapper.toResponseList(products);
+        return products.map(productMapper::toResponse);
     }
 
 }

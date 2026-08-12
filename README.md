@@ -18,6 +18,7 @@ A RESTful API built with **Java**, **Spring Boot**, **Spring Data JPA**, and **M
 - ✅ Reusable DTO mapping method to reduce duplicate code and improve maintainability.
 - ✅ Refactored DTO mapping using Java Stream API for cleaner and more maintainable code.
 - ✅ Automatic MapStruct with DTO mapping
+- ✅ API documentation and testing with Swagger/OpenAPI
 
 
 ---
@@ -33,6 +34,8 @@ A RESTful API built with **Java**, **Spring Boot**, **Spring Data JPA**, and **M
 - Maven
 - REST API
 - MapStruct
+- Pagination & Sorting
+- Swagger/OpenAPI
 
 ---
 
@@ -123,9 +126,6 @@ Client
 
 ## Future Improvements
 
-- ModelMapper
-- Pagination & Sorting
-- Swagger / OpenAPI
 - Spring Security
 - JWT Authentication
 - Unit Testing

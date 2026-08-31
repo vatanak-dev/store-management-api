@@ -36,6 +36,8 @@ A RESTful API built with **Java**, **Spring Boot**, **Spring Data JPA**, and **M
 - MapStruct
 - Pagination & Sorting
 - Swagger/OpenAPI
+- Testcontainer
+- Docker
 
 ---
 

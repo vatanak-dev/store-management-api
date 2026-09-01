@@ -1,5 +1,6 @@
 package com.vdev.service;
 
+import com.vdev.repository.CategoryRepository;
 import com.vdev.dto.ProductRequestDTO;
 import com.vdev.dto.ProductResponseDTO;
 import com.vdev.entity.Product;
@@ -13,7 +14,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 
 @Service
@@ -21,12 +21,15 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final CategoryRepository categoryRepository;
 
     public ProductService(
             ProductRepository productRepository,
-            ProductMapper productMapper) {
+            ProductMapper productMapper,
+            CategoryRepository categoryRepository) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.categoryRepository = categoryRepository;
     }
 
     public ProductResponseDTO createProduct (ProductRequestDTO requestDTO) {
@@ -34,6 +37,9 @@ public class ProductService {
         product.setName(requestDTO.getName());
         product.setPrice(requestDTO.getPrice());
         product.setQuantity(requestDTO.getQuantity());
+
+        product.setCategory(categoryRepository.findById(requestDTO.getCategoryId())
+                .orElseThrow(()-> new ProductNotFoundException("Category Not Found!")));
         Product savedProduct = productRepository.save(product);
 
         return productMapper.toResponse(savedProduct);

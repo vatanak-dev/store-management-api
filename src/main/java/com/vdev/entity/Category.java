@@ -3,6 +3,8 @@ package com.vdev.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.List;
+
 
 @Entity
 @Table(name = "categories")
@@ -15,6 +17,13 @@ public class Category {
     @NotBlank(message = "Category name is required")
     private String name;
     private String description;
+
+    @OneToMany (mappedBy = "category")
+    private List<Product> products;
+
+    public List<Product> getProducts() {
+        return products;
+    }
 
     public Long getId() {
         return id;

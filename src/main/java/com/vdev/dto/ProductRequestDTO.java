@@ -20,6 +20,16 @@ public class ProductRequestDTO {
     @Positive(message = "Product quantity must be a positive value.")
     private Integer quantity;
 
+    private Long categoryId;
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
     public String getName() {
         return name;
     }

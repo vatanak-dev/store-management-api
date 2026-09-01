@@ -28,6 +28,18 @@ public class Product {
     @Positive(message = "Product quantity must be a positive value")
     private Integer quantity;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     // Constructors
     public Product() {
     }

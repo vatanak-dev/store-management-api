@@ -14,6 +14,11 @@ public class CategoryService {
     public Category createCategory(Category category){
         return categoryRepository.save(category);
     }
+    public int getProductCount (Long categoryId) {
+        Category category = categoryRepository.findById(categoryId).
+                orElseThrow();
+        return category.getProducts().size();
+    }
 
 
 }

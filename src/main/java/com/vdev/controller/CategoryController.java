@@ -2,10 +2,7 @@ package com.vdev.controller;
 
 import com.vdev.entity.Category;
 import com.vdev.service.CategoryService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/categories")
@@ -21,4 +18,9 @@ public class CategoryController {
     public Category createCategory(@RequestBody Category category){
         return categoryService.createCategory(category);
     }
+    @GetMapping("/{id}/products/count")
+    public int getProductCount (@PathVariable Long id){
+        return categoryService.getProductCount(id);
+    }
+
 }

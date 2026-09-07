@@ -1,143 +1,52 @@
 # Store Management API
 
-A RESTful API built with **Java**, **Spring Boot**, **Spring Data JPA**, and **MySQL** for managing store products. This project is part of my backend development learning journey and follows REST API and layered architecture best practices.
-
----
+A Store Management API built with Java 21,
+Spring Boot, Spring Data JPA, MySQL, and MapStruct.
 
 ## Features
 
-- ✅ Create Product
-- ✅ Get All Products
-- ✅ Get Product by ID
-- ✅ Update Product
-- ✅ Delete Product
-- ✅ Request Validation using Jakarta Bean Validation
-- ✅ Global Exception Handling
-- ✅ DTO-based API Architecture
-- ✅ DTO-based API responses to separate internal entities from client-facing data.
-- ✅ Reusable DTO mapping method to reduce duplicate code and improve maintainability.
-- ✅ Refactored DTO mapping using Java Stream API for cleaner and more maintainable code.
-- ✅ Automatic MapStruct with DTO mapping
-- ✅ API documentation and testing with Swagger/OpenAPI
-
-
----
+- Product CRUD operations
+- DTO-based request/response handling
+- MapStruct entity-to-DTO mapping
+- Request validation and global exception handling
+- Product search and dynamic filtering
+- Pagination and sorting
+- Product–Category relationships
+- OpenAPI/Swagger documentation
 
 ## Tech Stack
 
 - Java 21
 - Spring Boot
-- Spring Data JPA
-- Hibernate
+- Spring Data JPA / Hibernate
 - MySQL
-- Jakarta Bean Validation
-- Maven
-- REST API
 - MapStruct
-- Pagination & Sorting
-- Swagger/OpenAPI
-- Testcontainer
-- Docker
+- Maven
+- Postman
+- Git / GitHub
 
----
+## Architecture
 
-## Project Structure
+Controller → Service → Repository → MySQL
 
-```text
-src
-├── controller
-├── dto
-├── entity
-├── exception
-├── repository
-├── service
-└── resources
-```
+DTO ↔ MapStruct ↔ Entity
 
----
+## API Documentation
 
-## Request Lifecycle
+Swagger UI is available for exploring and testing the API.
 
-```text
-                 CREATE / UPDATE REQUEST
+## Getting Started
 
-Client
-   ↓
-ProductRequestDTO
-   ↓
-Controller
-   ↓
-Service
-   ↓
-Entity
-   ↓
-Repository
-   ↓
-Database
-
-                      RESPONSE
-
-Database
-   ↑
-Repository
-   ↑
-Entity
-   ↑
-Service
-   ↑
-ProductResponseDTO
-   ↑
-Controller
-   ↑
-Client
-```
-
----
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|---------|----------|-------------|
-| GET | `/products` | Get all products |
-| GET | `/products/{id}` | Get product by ID |
-| POST | `/products` | Create a product |
-| PUT | `/products/{id}` | Update a product |
-| DELETE | `/products/{id}` | Delete a product |
-
----
-
-## Validation & Exception Handling
-
-### Request Validation
-
-- `@Valid`
-- `@NotBlank`
-- `@NotNull`
-- `@Positive`
-- `@Size`
-
-### Exception Handling
-
-- Global exception handling using `@RestControllerAdvice`
-- Custom `ProductNotFoundException`
-- Consistent JSON error responses
-- HTTP `400 Bad Request`
-- HTTP `404 Not Found`
-
----
+1. Clone the repository
+2. Configure MySQL database
+3. Update application properties
+4. Run the application with Maven
 
 ## Future Improvements
 
-- Spring Security
-- JWT Authentication
-- Unit Testing
-- Docker
-- PostgreSQL
-
----
-
-## Author
-
-**Vatanak VUT**
-
-Computer Science Student | Aspiring Java Backend Developer
+- Automated testing
+- Stock management
+- Transactions
+- Authentication & authorization
+- Order management
+- Docker & CI/CD

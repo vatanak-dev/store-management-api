@@ -2,6 +2,7 @@ package com.vdev.mapper;
 
 import com.vdev.dto.ProductRequestDTO;
 import com.vdev.dto.ProductResponseDTO;
+import com.vdev.dto.ProductSummaryDTO;
 import com.vdev.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -15,4 +16,6 @@ public interface ProductMapper {
                       @MappingTarget Product product
     );
     List<ProductResponseDTO> toResponseList(List<Product> products);
+
+    ProductSummaryDTO toProductSummaryDTO (Product product);
 }

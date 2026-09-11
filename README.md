@@ -13,6 +13,9 @@ Spring Boot, Spring Data JPA, MySQL, and MapStruct.
 - Pagination and sorting
 - Product–Category relationships
 - OpenAPI/Swagger documentation
+- Category & Product relationships
+- Relationship DTOs with MapStruct
+- Circular JSON prevention through DTO design
 
 ## Tech Stack
 

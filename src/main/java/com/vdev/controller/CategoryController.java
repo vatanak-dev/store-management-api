@@ -1,5 +1,6 @@
 package com.vdev.controller;
 
+import com.vdev.dto.CategoryResponseDTO;
 import com.vdev.entity.Category;
 import com.vdev.service.CategoryService;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,10 @@ public class CategoryController {
     @GetMapping("/{id}/products/count")
     public int getProductCount (@PathVariable Long id){
         return categoryService.getProductCount(id);
+    }
+    @GetMapping("/{id}")
+    public CategoryResponseDTO getCategoryById(@PathVariable Long id) {
+        return categoryService.getCategoryById(id);
     }
 
 }

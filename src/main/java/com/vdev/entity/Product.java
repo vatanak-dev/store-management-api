@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ public class Product {
     private BigDecimal price;
 
     @NotNull(message = "Product quantity is required")
-    @Positive(message = "Product quantity must be a positive value")
+    @PositiveOrZero(message = "Product quantity cannot be negative values")
     private Integer quantity;
 
     @ManyToOne

@@ -1,5 +1,6 @@
 package com.vdev.service;
 
+import com.vdev.dto.StockRequestDTO;
 import com.vdev.repository.CategoryRepository;
 import com.vdev.dto.ProductRequestDTO;
 import com.vdev.dto.ProductResponseDTO;
@@ -107,6 +108,28 @@ public class ProductService {
         Page<Product> products = productRepository.findAll(specification, pageable);
 
         return products.map(productMapper::toResponse);
+    }
+    public ProductResponseDTO increaseStock (Long id, StockRequestDTO stockRequestDTO){
+        Product product = productRepository.findById(id).orElseThrow(
+                () -> new ProductNotFoundException("Product Not Found with ID: " + id)
+        );
+
+        Integer newQuantity = product.getQuantity() + stockRequestDTO.getAmount();
+        product.setQuantity(newQuantity);
+        Product savedProduct = productRepository.save(product);
+        return productMapper.toResponse(savedProduct);
+    }
+    public ProductResponseDTO decreaseStock(Long id, StockRequestDTO stockRequestDTO){
+        Product product = productRepository.findById(id).
+                orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " + id));
+        if(stockRequestDTO.getAmount() > product.getQuantity()){
+            throw new IllegalArgumentException("Insufficient stock for product ID: " + id);
+        }
+            Integer newQuantity = product.getQuantity() - stockRequestDTO.getAmount();
+            product.setQuantity(newQuantity);
+            Product savedProduct = productRepository.save(product);
+            return productMapper.toResponse(savedProduct);
+
     }
 
 }

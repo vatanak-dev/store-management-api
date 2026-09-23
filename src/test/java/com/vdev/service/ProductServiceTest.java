@@ -4,7 +4,9 @@ import com.vdev.dto.ProductRequestDTO;
 import com.vdev.exception.ProductNotFoundException;
 import com.vdev.dto.ProductResponseDTO;
 import com.vdev.entity.Product;
+import com.vdev.entity.Category;
 import com.vdev.mapper.ProductMapper;
+import com.vdev.repository.CategoryRepository;
 import com.vdev.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,6 +31,9 @@ public class ProductServiceTest {
 
     @Mock
     private ProductMapper productMapper;
+
+    @Mock
+    private CategoryRepository categoryRepository;
 
     @InjectMocks
     private ProductService productService;
@@ -76,6 +81,17 @@ public class ProductServiceTest {
     @Test
     void createProduct_ShouldReturnCreatedProduct(){
         ProductRequestDTO requestDTO = new ProductRequestDTO();
+        requestDTO.setName("Keyboard");
+        requestDTO.setQuantity(10);
+        requestDTO.setPrice(new BigDecimal("50"));
+        requestDTO.setCategoryId(1L);
+
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Electronics");
+
+        when(categoryRepository.findById(1L)).
+                thenReturn(Optional.of(category));
 
         Product savedProduct = new Product(
                 1L,

@@ -13,9 +13,12 @@ Spring Boot, Spring Data JPA, MySQL, and MapStruct.
 - Pagination and sorting
 - Product–Category relationships
 - OpenAPI/Swagger documentation
-- Category & Product relationships
 - Relationship DTOs with MapStruct
 - Circular JSON prevention through DTO design
+- Product stock management with increase/decrease operations
+- Stock validation and insufficient stock protection
+- Testcontainers with MySQL
+- Unit, controller, repository and integration testing
 
 ## Tech Stack
 
@@ -47,9 +50,9 @@ Swagger UI is available for exploring and testing the API.
 
 ## Future Improvements
 
-- Automated testing
-- Stock management
-- Transactions
-- Authentication & authorization
-- Order management
-- Docker & CI/CD
+- Spring Security, JWT authentication and role-based authorization
+- Order management and transactional workflows
+- Database migrations and auditing
+- Docker and Docker Compose
+- CI/CD and deployment
+- Performance optimization and caching

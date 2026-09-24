@@ -1,6 +1,7 @@
 package com.vdev.service;
 
 import com.vdev.dto.ProductRequestDTO;
+import com.vdev.dto.StockRequestDTO;
 import com.vdev.exception.ProductNotFoundException;
 import com.vdev.dto.ProductResponseDTO;
 import com.vdev.entity.Product;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
@@ -34,6 +36,7 @@ public class ProductServiceTest {
 
     @Mock
     private CategoryRepository categoryRepository;
+
 
     @InjectMocks
     private ProductService productService;
@@ -119,5 +122,114 @@ public class ProductServiceTest {
         verify(productMapper).toResponse(savedProduct);
 
     }
+    @Test
+    void increaseStock_shouldIncreaseQuantity(){
+        Product product = new Product(
+                1L,
+                "Keyboard",
+                new BigDecimal("50"),
+                10);
+        StockRequestDTO stockRequestDTO = new StockRequestDTO();
+        stockRequestDTO.setAmount(5);
 
+        when(productRepository.findById(1L)).
+                thenReturn(Optional.of(product));
+
+        when(productRepository.save(any(Product.class))).
+                thenReturn(product);
+
+        ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+        productResponseDTO.setId(1L);
+        productResponseDTO.setName("Keyboard");
+        productResponseDTO.setQuantity(15);
+        productResponseDTO.setPrice(new BigDecimal("50"));
+
+        when(productMapper.toResponse(product)).
+                thenReturn(productResponseDTO);
+
+        ProductResponseDTO result = productService.
+                increaseStock(1L, stockRequestDTO);
+        assertEquals(15, result.getQuantity());
+
+        verify(productRepository).findById(1L);
+        verify(productRepository).save(product);
+    }
+    @Test
+    void increaseStock_shouldThrowExceptionWhenProductNotFound(){
+        when(productRepository.findById(999L)).
+                thenReturn(Optional.empty());
+        assertThrows(ProductNotFoundException.class,
+                () -> productService.increaseStock(
+                        999L,
+                        new StockRequestDTO()));
+        verify(productRepository).findById(999L);
+    }
+    @Test
+    void decreaseStock_shouldDecreaseQuantity(){
+        Product product = new Product(
+                1L,
+                "Laptop",
+                new BigDecimal("1000"),
+                20
+        );
+
+        StockRequestDTO stockRequestDTO = new StockRequestDTO();
+        stockRequestDTO.setAmount(5);
+
+        when(productRepository.findById(1L)).
+                thenReturn(Optional.of(product));
+
+        when(productRepository.save(any(Product.class))).
+                thenReturn(product);
+
+        ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+        productResponseDTO.setQuantity(15);
+
+        when(productMapper.toResponse(product)).
+                thenReturn(productResponseDTO);
+
+        ProductResponseDTO result = productService.
+                decreaseStock(1L, stockRequestDTO);
+        assertEquals(15, result.getQuantity());
+
+        verify(productRepository).findById(1L);
+        verify(productRepository).save(product);
+    }
+    @Test
+    void decreaseStock_shouldThrowExceptionWhenInsufficientStock(){
+        Product product = new Product(
+                1L,
+                "MousePad",
+                new BigDecimal("20"),
+                3
+        );
+
+        StockRequestDTO stockRequestDTO = new StockRequestDTO();
+        stockRequestDTO.setAmount(5);
+
+        when(productRepository.findById(1L)).
+                thenReturn(Optional.of(product));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> productService.decreaseStock(
+                        1L,
+                        stockRequestDTO));
+
+        verify(productRepository).findById(1L);
+        verify(productRepository, never()).save(product);
+    }
+    @Test
+    void decreaseStock_shouldThrowExceptionWhenProductNotFound(){
+        when(productRepository.findById(999L)).
+                thenReturn(Optional.empty());
+
+        assertThrows(ProductNotFoundException.class,
+                () -> productService.decreaseStock(
+                        999L,
+                        new StockRequestDTO())
+        );
+
+        verify(productRepository).findById(999L);
+        verify(productRepository, never()).save(any(Product.class));
+    }
 }

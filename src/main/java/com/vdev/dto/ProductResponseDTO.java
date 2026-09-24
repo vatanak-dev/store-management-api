@@ -1,5 +1,7 @@
 package com.vdev.dto;
 
+import com.vdev.entity.enums.ProductStatus;
+
 import java.math.BigDecimal;
 
 public class ProductResponseDTO {
@@ -7,6 +9,15 @@ public class ProductResponseDTO {
     private String name;
     private BigDecimal price;
     private Integer quantity;
+    private ProductStatus status;
+
+    public ProductStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ProductStatus status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;

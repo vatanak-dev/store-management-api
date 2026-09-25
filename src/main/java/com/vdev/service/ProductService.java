@@ -1,5 +1,6 @@
 package com.vdev.service;
 
+import com.vdev.dto.ProductStatusRequestDTO;
 import com.vdev.dto.StockRequestDTO;
 import com.vdev.repository.CategoryRepository;
 import com.vdev.dto.ProductRequestDTO;
@@ -129,7 +130,16 @@ public class ProductService {
             product.setQuantity(newQuantity);
             Product savedProduct = productRepository.save(product);
             return productMapper.toResponse(savedProduct);
-
     }
-
+    public ProductResponseDTO updateProductStatus(
+            Long id,
+            ProductStatusRequestDTO requestDTO){
+        Product product = productRepository.findById(id).
+                orElseThrow(() ->
+                        new ProductNotFoundException(
+                                "Product Not Found with ID: " + id));
+        product.setStatus(requestDTO.getStatus());
+        productRepository.save(product);
+        return productMapper.toResponse(product);
+    }
 }

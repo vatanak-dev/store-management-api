@@ -3,6 +3,7 @@ package com.vdev.controller;
 import com.vdev.dto.ProductRequestDTO;
 import com.vdev.dto.ProductResponseDTO;
 
+import com.vdev.dto.ProductStatusRequestDTO;
 import com.vdev.dto.StockRequestDTO;
 import com.vdev.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -141,12 +142,12 @@ public class ProductController {
             @Valid @RequestBody ProductRequestDTO requestDTO){
         return productService.updateProduct(id, requestDTO);
     }
-    @PatchMapping("/products/{id}/stock/increase")
+    @PatchMapping("{id}/stock/increase")
     public ProductResponseDTO increaseStock(@PathVariable Long id,
                                             @Valid @RequestBody StockRequestDTO stockRequestDTO){
         return productService.increaseStock(id, stockRequestDTO);
     }
-    @PatchMapping("/products/{id}/stock/decrease")
+    @PatchMapping("{id}/stock/decrease")
     public ProductResponseDTO decreaseStock(@PathVariable Long id,
                                             @Valid @RequestBody StockRequestDTO stockRequestDTO){
         return productService.decreaseStock(id, stockRequestDTO);
@@ -175,6 +176,13 @@ public class ProductController {
             @PathVariable Long id){
         productService.deleteProduct(id);
 
+    }
+    @PatchMapping("{id}/status")
+    public ProductResponseDTO updateStatus(
+            @PathVariable Long id,
+            @Valid @RequestBody ProductStatusRequestDTO requestDTO
+    ){
+        return productService.updateProductStatus(id, requestDTO);
     }
 
 }

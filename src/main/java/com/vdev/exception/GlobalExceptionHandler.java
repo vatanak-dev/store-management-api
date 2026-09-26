@@ -24,6 +24,16 @@ public class GlobalExceptionHandler {
             .status(HttpStatus.NOT_FOUND)
             .body(errorResponse);
     }
+    @ExceptionHandler(InsufficientStockException.class)
+    public ResponseEntity<ErrorResponse> handleInsufficientStockException(
+            InsufficientStockException ex
+    ){
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "Insufficient stock for the requested product."
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationException(
             MethodArgumentNotValidException exception) {
@@ -73,4 +83,6 @@ public class GlobalExceptionHandler {
                 status(HttpStatus.BAD_REQUEST).
                 body(error);
     }
+
+
 }

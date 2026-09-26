@@ -1,5 +1,6 @@
 package com.vdev.service;
 
+import com.vdev.exception.InsufficientStockException;
 import com.vdev.dto.ProductStatusRequestDTO;
 import com.vdev.dto.StockRequestDTO;
 import com.vdev.repository.CategoryRepository;
@@ -114,7 +115,6 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new ProductNotFoundException("Product Not Found with ID: " + id)
         );
-
         Integer newQuantity = product.getQuantity() + stockRequestDTO.getAmount();
         product.setQuantity(newQuantity);
         Product savedProduct = productRepository.save(product);
@@ -124,7 +124,7 @@ public class ProductService {
         Product product = productRepository.findById(id).
                 orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " + id));
         if(stockRequestDTO.getAmount() > product.getQuantity()){
-            throw new IllegalArgumentException("Insufficient stock for product ID: " + id);
+            throw new InsufficientStockException("Insufficient stock for product ID: " + id);
         }
             Integer newQuantity = product.getQuantity() - stockRequestDTO.getAmount();
             product.setQuantity(newQuantity);

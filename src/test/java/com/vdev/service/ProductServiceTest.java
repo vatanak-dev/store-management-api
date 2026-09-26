@@ -2,6 +2,7 @@ package com.vdev.service;
 
 import com.vdev.dto.ProductRequestDTO;
 import com.vdev.dto.StockRequestDTO;
+import com.vdev.exception.InsufficientStockException;
 import com.vdev.exception.ProductNotFoundException;
 import com.vdev.dto.ProductResponseDTO;
 import com.vdev.entity.Product;
@@ -210,7 +211,7 @@ public class ProductServiceTest {
         when(productRepository.findById(1L)).
                 thenReturn(Optional.of(product));
 
-        assertThrows(IllegalArgumentException.class,
+        assertThrows(InsufficientStockException.class,
                 () -> productService.decreaseStock(
                         1L,
                         stockRequestDTO));

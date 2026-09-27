@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -111,6 +112,7 @@ public class ProductService {
 
         return products.map(productMapper::toResponse);
     }
+    @Transactional
     public ProductResponseDTO increaseStock (Long id, StockRequestDTO stockRequestDTO){
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new ProductNotFoundException("Product Not Found with ID: " + id)
@@ -120,6 +122,7 @@ public class ProductService {
         Product savedProduct = productRepository.save(product);
         return productMapper.toResponse(savedProduct);
     }
+    @Transactional
     public ProductResponseDTO decreaseStock(Long id, StockRequestDTO stockRequestDTO){
         Product product = productRepository.findById(id).
                 orElseThrow(() -> new ProductNotFoundException("Product Not Found with ID: " + id));

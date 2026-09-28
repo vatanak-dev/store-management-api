@@ -3,6 +3,7 @@ package com.vdev.dto;
 import com.vdev.entity.enums.ProductStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class ProductResponseDTO {
     private Long id;
@@ -10,6 +11,24 @@ public class ProductResponseDTO {
     private BigDecimal price;
     private Integer quantity;
     private ProductStatus status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 
     public ProductStatus getStatus() {
         return status;

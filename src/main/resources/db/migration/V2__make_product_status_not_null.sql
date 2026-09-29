@@ -1,0 +1,7 @@
+UPDATE products
+SET status = 'active'
+WHERE status IS NULL;
+
+ALTER TABLE products
+MODIFY status ENUM('ACTIVE', 'INACTIVE', 'DISCONTINUED')
+NOT NULL DEFAULT 'ACTIVE';

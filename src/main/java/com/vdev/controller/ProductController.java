@@ -19,12 +19,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.math.BigDecimal;
-import java.util.Locale;
+
 
 @RestController
 @RequestMapping("/products")
@@ -143,12 +143,12 @@ public class ProductController {
             @Valid @RequestBody ProductRequestDTO requestDTO){
         return productService.updateProduct(id, requestDTO);
     }
-    @PatchMapping("{id}/stock/increase")
+    @PatchMapping("/{id}/stock/increase")
     public ProductResponseDTO increaseStock(@PathVariable Long id,
                                             @Valid @RequestBody StockRequestDTO stockRequestDTO){
         return productService.increaseStock(id, stockRequestDTO);
     }
-    @PatchMapping("{id}/stock/decrease")
+    @PatchMapping("/{id}/stock/decrease")
     public ProductResponseDTO decreaseStock(@PathVariable Long id,
                                             @Valid @RequestBody StockRequestDTO stockRequestDTO){
         return productService.decreaseStock(id, stockRequestDTO);
@@ -178,7 +178,7 @@ public class ProductController {
         productService.deleteProduct(id);
 
     }
-    @PatchMapping("{id}/status")
+    @PatchMapping("/{id}/status")
     public ProductResponseDTO updateStatus(
             @PathVariable Long id,
             @Valid @RequestBody ProductStatusRequestDTO requestDTO

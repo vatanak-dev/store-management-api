@@ -5,6 +5,7 @@ import com.vdev.dto.ProductResponseDTO;
 
 import com.vdev.dto.ProductStatusRequestDTO;
 import com.vdev.dto.StockRequestDTO;
+import com.vdev.entity.Product;
 import com.vdev.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @RestController
@@ -184,6 +186,11 @@ public class ProductController {
             @Valid @RequestBody ProductStatusRequestDTO requestDTO
     ){
         return productService.updateProductStatus(id, requestDTO);
+    }
+    @GetMapping("/search")
+    public List<Product> findByPriceGreaterThanMinPrice (
+            @RequestParam("minPrice") BigDecimal minPrice) {
+        return productService.findProductsWithPriceGreaterThanMinPrice(minPrice);
     }
 
 }

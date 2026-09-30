@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Service
@@ -144,5 +145,8 @@ public class ProductService {
         product.setStatus(requestDTO.getStatus());
         productRepository.save(product);
         return productMapper.toResponse(product);
+    }
+    public List<Product> findProductsWithPriceGreaterThanMinPrice(BigDecimal minPrice) {
+        return productRepository.findProductsWithPriceGreaterThanMinPrice(minPrice);
     }
 }

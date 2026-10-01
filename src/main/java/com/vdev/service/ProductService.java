@@ -149,4 +149,7 @@ public class ProductService {
     public List<Product> findProductsWithPriceGreaterThanMinPrice(BigDecimal minPrice) {
         return productRepository.findProductsWithPriceGreaterThanMinPrice(minPrice);
     }
+    public List<Product> findAbovePriceAndQuantity (BigDecimal price, Integer quantity){
+        return productRepository.findAbovePriceAndQuantity(price, quantity);
+    }
 }

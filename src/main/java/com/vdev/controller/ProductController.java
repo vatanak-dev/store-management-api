@@ -187,10 +187,15 @@ public class ProductController {
     ){
         return productService.updateProductStatus(id, requestDTO);
     }
-    @GetMapping("/search")
+    @GetMapping("/search/minPrice")
     public List<Product> findByPriceGreaterThanMinPrice (
             @RequestParam("minPrice") BigDecimal minPrice) {
         return productService.findProductsWithPriceGreaterThanMinPrice(minPrice);
     }
-
+    @GetMapping("/search/price-quantity")
+    public List<Product> findAbovePriceAndQuantity (
+            @RequestParam("price") BigDecimal price,
+            @RequestParam("quantity") Integer quantity){
+        return productService.findAbovePriceAndQuantity(price, quantity);
+    }
 }

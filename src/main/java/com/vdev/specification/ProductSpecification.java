@@ -27,4 +27,11 @@ public class ProductSpecification {
                 maxPrice
         );
     }
+    public static Specification<Product> quantityGreaterThanOrEqualTo (Integer quantity) {
+        return (root, query, criteriaBuilder)
+        -> criteriaBuilder.greaterThanOrEqualTo(
+                root.get("quantity"),
+                quantity
+        );
+    }
 }

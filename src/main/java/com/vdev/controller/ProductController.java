@@ -48,7 +48,11 @@ public class ProductController {
                     example = "Laptop"
             )
             @RequestParam(required = false) String name,
-
+            @Parameter(
+                    description = "Minimum product quantity",
+                    example = "10"
+            )
+            @RequestParam(required = false) Integer minQuantity,
             @Parameter(
                     description = "Minimum product price",
                     example = "500"
@@ -65,6 +69,7 @@ public class ProductController {
                 name,
                 minPrice,
                 maxPrice,
+                minQuantity,
                 pageable);
     }
 

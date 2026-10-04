@@ -1,6 +1,8 @@
 package com.vdev.repository;
 
 import com.vdev.entity.Product;
+import com.vdev.specification.ProductSpecification;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +24,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>,
     List<Product> findAbovePriceAndQuantity(
             @Param("price") BigDecimal price,
             @Param("quantity") Integer quantity);
+
 }

@@ -73,6 +73,7 @@ public class ProductService {
             String name,
             BigDecimal minPrice,
             BigDecimal maxPrice,
+            Integer minQuantity,
             Pageable pageable){
         Specification<Product> specification = Specification.unrestricted();
 
@@ -99,16 +100,33 @@ public class ProductService {
                     ProductSpecification.nameContains(name)
             );
         }
-        if (minPrice != null) {
-            specification = specification.and(
-                    ProductSpecification.priceGreaterThanOrEqualTo(minPrice)
-            );
-        }
         if (maxPrice != null) {
             specification = specification.and(
                     ProductSpecification.priceLessThanOrEqualTo(maxPrice)
             );
         }
+        if (minQuantity != null && minQuantity < 0){
+            throw new IllegalArgumentException(
+                    "minQuantity cannot be negative"
+            );
+        }
+        if (minPrice != null && minQuantity != null){
+            specification = specification.and(
+                    ProductSpecification.priceGreaterThanOrEqualTo(minPrice)
+                            .or(
+                                    ProductSpecification.quantityGreaterThanOrEqualTo(minQuantity)
+                            )
+            );
+        } else if (minPrice != null){
+            specification = specification.and(
+                    ProductSpecification.priceGreaterThanOrEqualTo(minPrice)
+            );
+        } else if (minQuantity != null) {
+            specification = specification.and(
+                    ProductSpecification.quantityGreaterThanOrEqualTo(minQuantity)
+            );
+        }
+
         Page<Product> products = productRepository.findAll(specification, pageable);
 
         return products.map(productMapper::toResponse);

@@ -1,6 +1,6 @@
 package com.vdev.dto;
 
-import com.vdev.entity.enums.ProductStatus;
+import com.vdev.enums.ProductStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

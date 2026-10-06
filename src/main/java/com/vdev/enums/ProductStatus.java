@@ -1,4 +1,4 @@
-package com.vdev.entity.enums;
+package com.vdev.enums;
 
 public enum ProductStatus {
     ACTIVE,

@@ -1,6 +1,7 @@
 package com.vdev.security;
 
 import com.vdev.entity.User;
+import com.vdev.enums.UserRole;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,10 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
     private  User user;
+
+    public UserRole getUserRole() {
+        return this.user.getUserRole();
+    }
     public CustomUserDetails(User user) {
         this.user = user;
     }

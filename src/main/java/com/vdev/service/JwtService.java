@@ -1,6 +1,7 @@
 
 package com.vdev.service;
 
+import com.vdev.enums.UserRole;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
@@ -23,15 +24,15 @@ public class JwtService {
 
     // TODO: Implement a method that accepts an authenticated username
     // and returns a signed JWT with subject, issued-at, and expiration claims.
-    public String generateToken(String username) {
+    public String generateToken(String username, UserRole userRole) {
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
+                .claim("role", userRole.name())
                 .subject(username)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(900)) // Token valid for 15 minutes
                 .build();
-        JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters.from(claims);
 
         JwsHeader jwsHeader = JwsHeader.with(MacAlgorithm.HS256).build();
 

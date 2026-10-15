@@ -1,6 +1,8 @@
 package com.vdev.controller;
 
 import com.vdev.dto.LoginRequestDTO;
+import com.vdev.enums.UserRole;
+import com.vdev.security.CustomUserDetails;
 import com.vdev.service.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -29,6 +31,9 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(
                         loginRequestDTO.getUsername(),
                         loginRequestDTO.getPassword()));
-        return jwtService.generateToken(authentication.getName());
+
+       CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        return jwtService.generateToken(authentication.getName(),
+               customUserDetails.getUserRole());
     }
 }

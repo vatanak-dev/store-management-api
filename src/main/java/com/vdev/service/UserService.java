@@ -12,7 +12,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder){
+
         this.userRepository=userRepository;
         this.passwordEncoder=passwordEncoder;
     }
@@ -25,7 +28,8 @@ public class UserService {
 
         User createdUser = new User();
         createdUser.setUsername(username);
-        createdUser.setPassword(passwordEncoder.encode(password));
+        createdUser.setPassword(passwordEncoder
+                .encode(password));
         UserRole role = UserRole.STAFF;
         createdUser.setUserRole(role);
         userRepository.save(createdUser);

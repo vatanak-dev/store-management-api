@@ -33,7 +33,8 @@ public class SecurityConfig {
         return http.build();
      }
      @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository){
+    public UserDetailsService userDetailsService(
+            UserRepository userRepository){
         return new CustomUserDetailsService(userRepository);
      }
      @Bean
@@ -42,7 +43,8 @@ public class SecurityConfig {
      }
 
      @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 

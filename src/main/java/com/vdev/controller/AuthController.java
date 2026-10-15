@@ -1,7 +1,9 @@
 package com.vdev.controller;
 
 import com.vdev.dto.LoginRequestDTO;
+import com.vdev.service.JwtService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,18 +15,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
-    public AuthController(AuthenticationManager authenticationManager) {
+    public AuthController(AuthenticationManager authenticationManager, JwtService jwtService) {
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
     @PostMapping("/login")
-    public void login(
+    public String login(
             @Valid @RequestBody LoginRequestDTO loginRequestDTO){
-        authenticationManager.authenticate(
+
+       Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequestDTO.getUsername(),
                         loginRequestDTO.getPassword()));
+        return jwtService.generateToken(authentication.getName());
     }
-
-
 }

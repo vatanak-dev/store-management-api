@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 
 
 @Configuration
@@ -23,13 +25,21 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+
+                        .requestMatchers(HttpMethod.DELETE,"/products/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET,"/products/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/products/**").hasAnyRole("ADMIN","STAFF")
+                        .requestMatchers(HttpMethod.PUT,"/products/**").hasAnyRole("ADMIN","STAFF")
+                        .requestMatchers(HttpMethod.PATCH,"/products/**").hasAnyRole("ADMIN","STAFF")
                         .requestMatchers(HttpMethod.POST,"/users/register").permitAll()
                         .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
+
                 .anyRequest().authenticated())
                 .oauth2ResourceServer(
                         oauth2 -> oauth2
-                                .jwt(Customizer.withDefaults()));
+                                .jwt(jwt -> jwt
+                                        .jwtAuthenticationConverter(jwtAuthConverter()))
+                );
         return http.build();
      }
      @Bean
@@ -46,6 +56,23 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public JwtAuthenticationConverter jwtAuthConverter (){
+        JwtGrantedAuthoritiesConverter jwtGrantedAuthConverter =
+                new JwtGrantedAuthoritiesConverter();
+
+        jwtGrantedAuthConverter.setAuthoritiesClaimName("roles");
+        jwtGrantedAuthConverter.setAuthorityPrefix("ROLE_");
+
+        JwtAuthenticationConverter jwtAuthConverter =
+                new JwtAuthenticationConverter();
+
+        jwtAuthConverter.setJwtGrantedAuthoritiesConverter(
+                jwtGrantedAuthConverter);
+
+        return jwtAuthConverter;
     }
 
 }
